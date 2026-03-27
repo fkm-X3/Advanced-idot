@@ -1,0 +1,49 @@
+// Example Advanced-idot program
+// This demonstrates the basic syntax of the language
+
+use "utils/math.idot" as math
+
+fn main() {
+    let x = 42
+    let y = 3.14
+    let name = "Advanced-idot"
+    
+    if x > 10 {
+        println("x is greater than 10")
+    } else {
+        println("x is 10 or less")
+    }
+    
+    let result = add(x, 20)
+    println("Result: {}", result)
+}
+
+fn add(a: int, b: int) -> int {
+    return a + b
+}
+
+struct Point {
+    x: float,
+    y: float,
+}
+
+class Circle {
+    radius: float,
+    
+    fn new(r: float) -> Circle {
+        Circle { radius: r }
+    }
+    
+    fn area(self) -> float {
+        return 3.14159 * self.radius * self.radius
+    }
+}
+
+// Pattern matching example
+fn classify(value: int) -> string {
+    match value {
+        0 => "zero",
+        1 => "one",
+        _ => "other",
+    }
+}
