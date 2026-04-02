@@ -6,23 +6,47 @@ on:
   pull_request:
     branches: [ main ]
 
-env:
-  CARGO_TERM_COLOR: always
-
 jobs:
-  test:
-    runs-on: ubuntu-latest
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        include:
+          - os: ubuntu-latest
+            compiler: gcc-13
+            cxx-compiler: g++-13
+          - os: windows-latest
+            compiler: msvc
+          - os: macos-latest
+            compiler: clang
+    
     steps:
     - uses: actions/checkout@v4
-    - name: Install LLVM
+    
+    - name: Install dependencies (Ubuntu)
+      if: runner.os == 'Linux'
       run: |
         sudo apt-get update
-        sudo apt-get install -y llvm-19 llvm-19-dev
+        sudo apt-get install -y cmake ${{ matrix.cxx-compiler }}
+        sudo apt-get install -y llvm-20-dev || sudo apt-get install -y llvm-19-dev || true
+    
+    - name: Install dependencies (Windows)
+      if: runner.os == 'Windows'
+      run: |
+        choco install cmake -y
+        choco install llvm -y || true
+    
+    - name: Install dependencies (macOS)
+      if: runner.os == 'macOS'
+      run: |
+        brew install cmake llvm || true
+    
+    - name: Configure CMake
+      run: cmake -B build -DCMAKE_BUILD_TYPE=Release
+    
     - name: Build
-      run: cargo build --verbose
-    - name: Run tests
-      run: cargo test --verbose
-    - name: Run clippy
-      run: cargo clippy -- -D warnings
-    - name: Check formatting
-      run: cargo fmt -- --check
+      run: cmake --build build --config Release
+    
+    - name: Test
+      run: ctest --test-dir build --output-on-failure

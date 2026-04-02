@@ -1,1 +1,45 @@
-/target
+# Build directories
+build/
+out/
+cmake-build-*/
+
+# CMake generated files
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+*.cmake
+!cmake/*.cmake
+
+# Compiled objects
+*.o
+*.obj
+*.a
+*.lib
+*.so
+*.dylib
+*.dll
+*.exe
+
+# IDE files
+.vs/
+.vscode/
+*.vcxproj*
+*.sln
+.idea/
+*.xcodeproj/
+*.xcworkspace/
+compile_commands.json
+
+# Generated files
+*.ll
+*.bc
+*.s
+
+# Test artifacts
+Testing/
+CTestTestfile.cmake
+
+# General ignores
+*.log
+.DS_Store
