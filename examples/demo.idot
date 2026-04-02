@@ -1,0 +1,165 @@
+// Advanced-idot Example Program
+// This demonstrates the planned syntax of the language
+
+// Import statements
+use "utils/math.idot" as math
+use "io/print.idot" as io
+
+// Simple function with type annotations
+fn add(a: int, b: int) -> int {
+    return a + b
+}
+
+// Function with type inference
+fn multiply(x: int, y: int) -> int {
+    let result = x * y
+    return result
+}
+
+// Function demonstrating control flow
+fn factorial(n: int) -> int {
+    if n <= 1 {
+        return 1
+    } else {
+        return n * factorial(n - 1)
+    }
+}
+
+// Iterative version with while loop
+fn factorial_iter(n: int) -> int {
+    let mut result = 1
+    let mut i = n
+    
+    while i > 1 {
+        result = result * i
+        i = i - 1
+    }
+    
+    return result
+}
+
+// Pattern matching
+fn describe_number(n: int) -> string {
+    match n {
+        0 => "zero",
+        1 => "one",
+        2 => "two",
+        _ => "many",
+    }
+}
+
+// Struct definition
+struct Point {
+    x: float,
+    y: float,
+}
+
+// Function using structs
+fn distance(p1: Point, p2: Point) -> float {
+    let dx = p2.x - p1.x
+    let dy = p2.y - p1.y
+    return math.sqrt(dx * dx + dy * dy)
+}
+
+// Class with methods
+class Circle {
+    radius: float,
+    center: Point,
+    
+    // Constructor
+    fn new(r: float, cx: float, cy: float) -> Circle {
+        Circle {
+            radius: r,
+            center: Point { x: cx, y: cy },
+        }
+    }
+    
+    // Method
+    fn area(self) -> float {
+        return 3.14159 * self.radius * self.radius
+    }
+    
+    // Method with mutation
+    fn scale(self, factor: float) {
+        self.radius = self.radius * factor
+    }
+}
+
+// Trait definition (interface)
+trait Shape {
+    fn area(self) -> float;
+    fn perimeter(self) -> float;
+}
+
+// Implement trait for Circle
+impl Shape for Circle {
+    fn area(self) -> float {
+        return 3.14159 * self.radius * self.radius
+    }
+    
+    fn perimeter(self) -> float {
+        return 2.0 * 3.14159 * self.radius
+    }
+}
+
+// Generic function (planned)
+fn max<T>(a: T, b: T) -> T {
+    if a > b {
+        return a
+    } else {
+        return b
+    }
+}
+
+// Array example
+fn sum_array(arr: [int]) -> int {
+    let mut total = 0
+    for x in arr {
+        total = total + x
+    }
+    return total
+}
+
+// Main function
+fn main() -> int {
+    // Variables
+    let x = 10
+    let y: int = 20
+    let mut z = add(x, y)
+    
+    // Arithmetic
+    let result = multiply(x, y) + z
+    
+    // Control flow
+    if result > 100 {
+        io.println("Result is large")
+    } else {
+        io.println("Result is small")
+    }
+    
+    // Loops
+    let mut i = 0
+    while i < 5 {
+        io.println(i)
+        i = i + 1
+    }
+    
+    // Pattern matching
+    let description = describe_number(result)
+    io.println(description)
+    
+    // Structs and classes
+    let origin = Point { x: 0.0, y: 0.0 }
+    let circle = Circle.new(5.0, 0.0, 0.0)
+    let area = circle.area()
+    
+    // Arrays
+    let numbers = [1, 2, 3, 4, 5]
+    let total = sum_array(numbers)
+    
+    // Function calls
+    let fact = factorial(5)  // 120
+    let fact_iter = factorial_iter(5)  // 120
+    
+    return 0
+}
